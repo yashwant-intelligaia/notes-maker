@@ -1,0 +1,26 @@
+{
+  "name": "notes-maker",
+  "version": "1.0.0",
+  "description": "Notes Maker",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yashwant-intelligaia/notes-maker.git"
+  },
+  "keywords": [
+    "notes"
+  ],
+  "author": "yashwant rautela",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yashwant-intelligaia/notes-maker/issues"
+  },
+  "homepage": "https://github.com/yashwant-intelligaia/notes-maker#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "koa": "^2.13.0"
+  }
+}

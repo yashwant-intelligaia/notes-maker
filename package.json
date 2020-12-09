@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Notes Maker",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "dev": "nodemon index.js"
   },
@@ -20,7 +21,9 @@
   },
   "homepage": "https://github.com/yashwant-intelligaia/notes-maker#readme",
   "dependencies": {
+    "apollo-server-koa": "^2.19.0",
     "dotenv": "^8.2.0",
-    "koa": "^2.13.0"
+    "koa": "^2.13.0",
+    "mongoose": "^5.11.5"
   }
 }

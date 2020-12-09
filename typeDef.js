@@ -3,7 +3,7 @@ import { gql } from "apollo-server-koa";
 export const typeDefs = gql`
   type Query {
     hello(name:String): String
-    user: User!
+    user(userInput:UserInput): User!
     users: [User]
   }
 
@@ -20,7 +20,6 @@ export const typeDefs = gql`
   type User{
     _id: ID!
     username: String!
-    password: String!
     age: Int
     firstLetter: String!
   }
@@ -35,5 +34,9 @@ export const typeDefs = gql`
     username: String!
     password: String!
     age: Int
+  }
+
+  input UserInput{
+    username: String!
   }
 `;

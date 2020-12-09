@@ -10,9 +10,12 @@ export const resolvers = {
     },
     Query: {
         hello: (parent, { name }) => { return `hello ${name}` },
-        user: () => ({ _id: 1, username: "yashwant" }),
-        // users: () => ([{ _id: 1, username: "yashwant" }, { _id: 2, username: "bhanu" }]),
-        users:() =>{
+
+        user: async (parent, { userInput }) => {
+            var user = await User.findOne({ username: userInput.username });
+            return user;
+        },
+        users: () => {
             var user = User.find();
             return user;
         }
@@ -21,14 +24,11 @@ export const resolvers = {
         login: (parent, { userInfo: { username } }, context, info) => {
             return username;
         },
-        // register: () => ({ errors: [{ field: "username", message: "invalid" }], user: { id: 1, username: "tom" } }),
-        register: async (parent, {userInfo}, context, info) =>{
-            // console.log(userInfo);
+
+        register: async (parent, { userInfo }, context, info) => {
             var user = new User(userInfo);
-            var response = await user.save();
-            console.log('response',response);
-            return {errors: [{ field: "username", message: "invalid" }], user: user }
-            // return user.username;
+            await user.save();
+            return { errors: [{ field: "username", message: "invalid" }], user: user };
         }
     }
 }

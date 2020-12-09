@@ -2,14 +2,16 @@ import { resolvers } from './resolver.js';
 import { typeDefs } from './typeDef.js'
 import { ApolloServer } from 'apollo-server-koa';
 import koa from 'koa';
-import dotenv from 'dotenv';
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 
 dotenv.config();
 
 const startServer = async () => {
   const app = new koa();
-  const port = process.env.PORT;
+  const port = process.env.PORT||4000;
+  const dbUrl = process.env.DB_URL||"mongodb://localhost:27017";
+  const dbName = process.env.DB_NAME;
 
   const server = new ApolloServer({
     typeDefs,
@@ -18,7 +20,7 @@ const startServer = async () => {
 
   server.applyMiddleware({ app });
 
-  await mongoose.connect("mongodb://localhost:27017/notes", {
+  await mongoose.connect((dbUrl+"/"+dbName), {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,

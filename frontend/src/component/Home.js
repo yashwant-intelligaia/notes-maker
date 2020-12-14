@@ -35,9 +35,6 @@ function Home() {
             <CardContent>
                 <Editor/>
             </CardContent>
-            <CardActions>
-                <Button size="small">Learn More</Button>
-            </CardActions>
         </Card>
     );
 }

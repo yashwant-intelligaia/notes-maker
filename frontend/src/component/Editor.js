@@ -28,7 +28,8 @@ const useStyles = makeStyles({
 });
 function Editor() {
     const [html, changeHtml] = useState(`<p>Hello <b>World</b> !</p><p>Paragraph 2</p>`);
-    const [editable, changeEditable] = useState(true);
+    // const [editable, changeEditable] = useState(true);
+    const [editable] = useState(true);
     const [title, changeTitle] = useState("");
     const classes = useStyles();
     const handleChange = (evt) => { changeHtml(evt.target.value) };
@@ -37,9 +38,9 @@ function Editor() {
         uri: 'http://localhost:3000/graphql',
         cache: new InMemoryCache()
     });
-      
+
     // const toggleEditable = () => { changeEditable(!editable) };
-    const addTitle = async() =>{
+    const addTitle = async () => {
         // await client.query({
         //     query: gql`{
         //         user(userInput:{username:"yashwantr"}){
@@ -64,7 +65,7 @@ function Editor() {
                 }
             }`
         })
-        .then(result => console.log(result));
+            .then(result => console.log(result));
     }
     return (<>
         <Grid container spacing={3} className={classes.centered}>
@@ -78,9 +79,14 @@ function Editor() {
                     color="primary"
                     aria-label="add"
                     className={classes.margin}
-                    disabled={title == "" ? true : false}
+                    disabled={title ==="" ? true : false}
                     onClick={addTitle}>
-                <CheckIcon />Add</Fab>
+                    <CheckIcon />Add</Fab>
+            </Grid>
+        </Grid>
+        <Grid container spacing={3} className={classes.centered}>
+            <Grid item xs={6}>
+                <h2>Title</h2>
             </Grid>
         </Grid>
         <ContentEditable

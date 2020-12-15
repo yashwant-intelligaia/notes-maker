@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
-import {useHistory} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 
@@ -9,12 +9,12 @@ function NoteList(props) {
     const [checked, changeChecked] = useState(false);
     const history = useHistory();
 
-    const handleNoteClick = (value) =>{
-        history.push(`/note/`+value);
+    const handleNoteClick = (value) => {
+        history.push(`/note/` + value);
     }
 
-    useEffect(async() => {
-        if(!checked){
+    useEffect(async () => {
+        if (!checked) {
             changeChecked(true);
             const client = new ApolloClient({
                 uri: 'http://localhost:3000/graphql',
@@ -27,23 +27,22 @@ function NoteList(props) {
                         title
                     }
                 }`,
-            })
-            .then(result => {console.log(result); changeNoteList(result.data.notes); });
+            }).then(result => { changeNoteList(result.data.notes) });
         }
     });
 
     return (
-        <>
-        <h1>NoteList</h1>
-        <ul>
-            {noteList.map(value =>{
-                return <li key={value._id}><a onClick={()=>handleNoteClick(value.title)}>{value.title}</a></li>
-            })}
-        </ul>
-        <Fab color="primary" aria-label="add">
-        <AddIcon />
-      </Fab>
-        </>
+        <React.Fragment>
+            <h1>NoteList</h1>
+            <ul>
+                {noteList.map(value => {
+                    return <li key={value._id}><a onClick={() => handleNoteClick(value.title)}>{value.title}</a></li>
+                })}
+            </ul>
+            <Fab color="primary" aria-label="add">
+                <AddIcon />
+            </Fab>
+        </React.Fragment>
     );
 }
 

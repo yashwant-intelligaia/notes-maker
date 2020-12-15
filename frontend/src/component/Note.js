@@ -1,33 +1,30 @@
-import {useEffect, useState} from 'react';
-import {useParams} from 'react-router-dom';
-import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
+import { useParams } from 'react-router-dom';
+import { ApolloClient, InMemoryCache, useQuery, gql } from '@apollo/client';
 
-function Note(){
-    const [checked, changeChecked] = useState(false);
-    // const [note, updateNote] = useState(null);
-    const {title} = useParams();
-    console.log(title);
-    
-    useEffect(async() => {
-        if(!checked){
-            changeChecked(true);
-            const client = new ApolloClient({
-                uri: 'http://localhost:3000/graphql',
-                cache: new InMemoryCache()
-            });
-            
-            await client.query({
-                query: gql`{
-                    note(noteInfo:{title:"Geo-notes"}){
-                        _id
-                        title
-                    }
-                }`,
-            })
-            .then(result => {console.log(result); });
-        }
+const GET_NOTES = gql`
+  query getNote($title: String!) {
+    note(noteInfo: {title: $title}) {
+      _id
+      title
+    }
+  }
+`;
+
+const client = new ApolloClient({
+    uri: 'http://localhost:3000/graphql',
+    cache: new InMemoryCache()
+});
+
+function Note() {
+    const { title } = useParams();
+    const { loading, error, data } = useQuery(GET_NOTES, {
+        client: client,
+        variables: { title: title }
     });
-    return <h1>Note</h1>
+
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error :(</p>;
+    return <h1>Note - {data.note.title}</h1>
 }
 
 export default Note;

@@ -2,6 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Home from './component/Home';
 import Note from './component/Note';
 import NoteList from './component/NoteList';
+import Test from './component/Test';
 import PageNotFound from './component/PageNotFound'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import Card from '@material-ui/core/Card';
@@ -36,6 +37,7 @@ function App() {
           <Switch>
             <Route exact path="/" component={Home}></Route>
             <Route exact path="/note/list" component={NoteList}></Route>
+            <Route exact path="/test/:title" component={Test}></Route>
             <Route path="/note/:title" component={Note}></Route>
             <Route component={PageNotFound}></Route>
           </Switch>

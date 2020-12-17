@@ -20,11 +20,20 @@ export class NotesController {
     }
 
     /**
+     * Function to update note
+     * @param {*} params(_id, title, content) 
+     */
+    async updateNote(params){
+        await Note.updateOne({ _id: params._id },{title: params.title, content: params.content});
+        return { status: 200, errors: [] };
+    }
+
+    /**
      * Function to get note
      * @param {*} params(title) 
      */
     async getNote(params) {
-        return await Note.findOne({ title: params.title });
+        return await Note.findOne({ _id: params._id });
     }
 
     /**

@@ -32,8 +32,11 @@ export const resolvers = {
         register: async (parent, { userInfo }, context, info) => {
             return await authController.register(userInfo);
         },
-        create_note: async (parent, { noteInfo }, context, info) => {
-            return await notesController.createNote(noteInfo);
+        create_note: async (parent, { noteInput }, context, info) => {
+            return await notesController.createNote(noteInput);
+        },
+        update_note: async (parent, { updateNoteInput }, context, info) => {
+            return await notesController.updateNote(updateNoteInput);
         },
         add_update_note_content: async (parent, { contentInfo }, context, info) => {
             return await notesController.addOrUpdateContent(contentInfo);

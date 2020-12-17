@@ -1,6 +1,6 @@
 import { gql } from "apollo-server-koa";
 export const typeDefs = gql`
-  type Error{ field: String!, message: String! }
+  type Error{ field: String, message: String! }
 
   #User section
   type User{ _id: ID!, username: String!, age: Int }
@@ -10,9 +10,11 @@ export const typeDefs = gql`
   input UserInput{ username: String! }
   
   #Notes section
-  type Note{ _id: ID!, title: String! }
+  type Note{ _id: ID!, title: String!, content:String }
   type RegisterNote{ status: Int, errors: [Error], note: Note! }
-  input NoteInfo{ _id:String, title:String! }
+  input NoteInfo{ _id:String!, title:String }
+  input NoteInput{ _id:String, title:String! }
+  input UpdateNoteInput{ _id:String!, title: String!, content: String!}
 
   #Content section
   type Content{ _id: ID!, note_id:String, data: String}
@@ -30,7 +32,8 @@ export const typeDefs = gql`
   type Mutation{
     register(userInfo:UserInfo): RegisterUser,
     login(userInfo:UserInfo):RegisterUser,
-    create_note(noteInfo:NoteInfo):RegisterNote,
+    create_note(noteInput:NoteInput):RegisterNote,
+    update_note(updateNoteInput:UpdateNoteInput):RegisterNote,
     add_update_note_content(contentInfo: ContentInfo): RegisterContent,
   }
 `;

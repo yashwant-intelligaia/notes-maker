@@ -67,7 +67,7 @@ function NoteList(props) {
             <List component="nav" aria-label="main mailbox folders">
                 {noteList.notes.map(value => {
                     return (
-                        <ListItem key={value._id} button onClick={() => handleNoteClick(value.title)}>
+                        <ListItem key={value._id} button onClick={() => handleNoteClick(value._id)}>
                             <ListItemIcon>
                                 <NoteIcon />
                             </ListItemIcon>

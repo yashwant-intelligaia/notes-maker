@@ -1,48 +1,65 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import EditIcon from '@material-ui/icons/Edit';
-import { useQuery, gql } from '@apollo/client';
-import Editor from './Editor';
 import useStyles from '../core/CustomCss';
 import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
+import ContentEditable from "react-contenteditable";
+import TextField from '@material-ui/core/TextField';
+import { GetNoteInfo } from '../container/QueryContainer';
+import { UPDATE_NOTE } from '../core/Mutation';
 import { Client } from '../core/Declaration';
-const GET_NOTES = gql`
-  query getNote($title: String!) {
-    note(noteInfo: {title: $title}) {
-      _id
-      title
-    }
-  }
-`;
+import { useMutation } from '@apollo/client';
 
 function Note(props) {
-  const [editableTitle, changeEditableTitle] = useState(true);
   const classes = useStyles();
-  const { title } = useParams();
-  const { loading, error, data } = useQuery(GET_NOTES, {
-    client: Client,
-    variables: { title: title }
-  });
-  const handleChangeEditableTitle = () => {
-    changeEditableTitle(false);
-  }
-
+  const { id } = useParams();
+  const [title, changeTitle] = useState("");
+  const [html, changeHtml] = useState(`<p>Hello <b>World</b> !</p><p>Paragraph 2</p>`);
+  const [editable] = useState(true);
+  const [editableTitle, changeEditableTitle] = useState(false);
+  const handleChange = (evt) => { changeHtml(evt.target.value) };
+  const handleTitle = (event) => { changeTitle(event.target.value) };
+  const handleEditableTitle = () => { changeEditableTitle(true); }
+  var [updateNote, { uloading, uerror, status }] = useMutation(UPDATE_NOTE, { client: Client, variables: { _id: id, title: title, content: html } });
+  const handleUpdateTitle = () => { changeTitle(title); changeEditableTitle(false); updateNote(); }
+  const { loading, error, noteData } = GetNoteInfo({ _id: id });
+  useEffect(() => {
+    if (noteData && noteData.note) {
+      changeTitle(noteData.note.title);
+      if (noteData.note.content) {
+        changeHtml(noteData.note.content)
+      }
+    }
+  }, [noteData]);
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
   return (
     <React.Fragment>
-      <div className={classes.textCenter + (editableTitle ? "" : (" " + classes.displayNone))}>
-        <span className={classes.heading1}>{data.note.title}</span>&nbsp;
-        <IconButton color="primary" aria-label="upload picture" component="span" onClick={handleChangeEditableTitle}>
-          <EditIcon />
-        </IconButton>
-      </div>
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
+      {editableTitle ?
+        <Grid container className={classes.centered}>
+          <Grid item xs={6}>
+            <TextField className={classes.textField} id="standard-basic" label="Title" value={title} onChange={handleTitle} onBlur={handleUpdateTitle} />
+          </Grid>
         </Grid>
-      </Grid>
-      <Editor canEditTitle={editableTitle} />
+        :
+        <Grid container className={classes.centered}>
+          <Grid item xs={6}>
+            <span className={classes.heading2}>{title}</span>
+            <IconButton color="primary" aria-label="upload picture" component="span" onClick={handleEditableTitle}>
+              <EditIcon />
+            </IconButton>
+          </Grid>
+        </Grid>
+      }
+      <ContentEditable
+        className={classes.editable}
+        tagName="pre"
+        html={html} // innerHTML of the editable div
+        disabled={!editable} // use true to disable edition
+        onChange={handleChange} // handle innerHTML change
+        onBlur={updateNote}
+      />
     </React.Fragment>
   );
 }

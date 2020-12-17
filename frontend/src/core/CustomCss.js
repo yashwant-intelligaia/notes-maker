@@ -28,8 +28,7 @@ const useStyles = makeStyles({
         outline: "none"
     },
     centered: {
-        marginLeft: "5%",
-        marginRight: "5%",
+        margin: "0 5%"
     },
     textField: {
         width: "100%"
@@ -39,6 +38,10 @@ const useStyles = makeStyles({
     },
     heading1: {
         fontSize: "2em",
+        fontWeight: "bold"
+    },
+    heading2: {
+        fontSize: "1.5em",
         fontWeight: "bold"
     },
     displayNone: {

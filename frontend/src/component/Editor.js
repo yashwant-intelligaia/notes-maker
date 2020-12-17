@@ -1,5 +1,4 @@
 import { useState } from 'react'
-// import { makeStyles } from '@material-ui/core/styles';
 import ContentEditable from "react-contenteditable";
 import TextField from '@material-ui/core/TextField';
 import Fab from '@material-ui/core/Fab';
@@ -7,9 +6,11 @@ import CheckIcon from '@material-ui/icons/Check';
 import Grid from '@material-ui/core/Grid';
 import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
 import useStyles from '../core/CustomCss';
+import IconButton from '@material-ui/core/IconButton';
+import EditIcon from '@material-ui/icons/Edit';
+
 function Editor(props) {
     const [html, changeHtml] = useState(`<p>Hello <b>World</b> !</p><p>Paragraph 2</p>`);
-    // const [editable, changeEditable] = useState(true);
     const [editable] = useState(true);
     const [title, changeTitle] = useState("");
     const classes = useStyles();
@@ -20,17 +21,7 @@ function Editor(props) {
         cache: new InMemoryCache()
     });
 
-    // const toggleEditable = () => { changeEditable(!editable) };
     const addTitle = async () => {
-        // await client.query({
-        //     query: gql`{
-        //         user(userInput:{username:"yashwantr"}){
-        //             username
-        //             age
-        //             _id
-        //         }
-        //     }`,
-        // })
         await client.mutate({
             mutation: gql`
             mutation{
@@ -67,7 +58,10 @@ function Editor(props) {
         </Grid>
         <Grid container spacing={3} className={classes.centered}>
             <Grid item xs={6}>
-                <h2>Title</h2>
+                <span className={classes.heading2}>{props.title}</span>
+                <IconButton color="primary" aria-label="upload picture" component="span">
+                    <EditIcon />
+                </IconButton>
             </Grid>
         </Grid>
         <ContentEditable

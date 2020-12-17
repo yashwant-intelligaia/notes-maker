@@ -13,3 +13,14 @@ export const CREATE_NOTE = gql`
         }
     }
 `;
+
+export const UPDATE_NOTE = gql`
+    mutation updateNote($_id:String!, $title:String!, $content: String!){
+        update_note(updateNoteInput:{_id:$_id, title:$title, content:$content}){
+            status
+            errors{
+                message
+            }
+        }
+    }
+`;

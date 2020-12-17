@@ -1,6 +1,6 @@
 import { React } from 'react';
-import { ApolloClient, InMemoryCache } from '@apollo/client';
-import { useQuery, useMutation, gql } from '@apollo/client';
+import { ApolloClient, InMemoryCache, useQuery, useMutation, gql } from '@apollo/client';
+import {CreateNotes, GetNotes} from '../container/QueryContainer';
 // import { ApolloProvider } from '@apollo/client';
 
 // import {useParams} from 'react-router-dom';
@@ -54,19 +54,19 @@ function Test() {
     //   </ApolloProvider>
 
     /* Mutation Example */
-    const title = "TestNote";
-    const [createNote, { loading, error, data }] = useMutation(CREATE_NOTE, { client: client });
-    const addNote = () => {
-        createNote({ variables: { title: title } });
-    }
-    if (loading) return <p>Loading...</p>;
-    if (error) return <p>Error :(</p>;
-    return (
-        <>
-            <button onClick={addNote}>Add</button>
-            <h1>Note - {data?.create_note?.note?.title}</h1>
-        </>
-    )
+    // const title = "TestNote";
+    // const [createNote, { loading, error, data }] = useMutation(CREATE_NOTE, { client: client });
+    // const addNote = () => {
+    //     createNote({ variables: { title: title } });
+    // }
+    // if (loading) return <p>Loading...</p>;
+    // if (error) return <p>Error :(</p>;
+    // return (
+    //     <>
+    //         <button onClick={addNote}>Add</button>
+    //         <h1>Note - {data?.create_note?.note?.title}</h1>
+    //     </>
+    // )
 
     /* Query Example */
     // const {title} = useParams();
@@ -78,6 +78,24 @@ function Test() {
     // if (loading) return <p>Loading...</p>;
     // if (error) return <p>Error :(</p>;
     // return <h1>Note - {data.note.title}</h1>
+
+    /* Testing Mutation using Container */
+    // var container = new NoteListContainer();
+    var {loading, error, noteList} = GetNotes();
+    var response = CreateNotes('ram');
+    // const [createNote, { loading, error, data }] = useMutation(CREATE_NOTE, { client: client });
+    // const addNote = () => {
+    //     createNote({ variables: { title: title } });
+    // }
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error :(</p>;
+    return (
+            <ul>
+                {noteList.notes.map(value => {
+                    return <li>{value.title}</li>
+                })}
+            </ul>
+    )
 }
 
 export default Test;

@@ -1,32 +1,13 @@
 import { useState } from 'react'
-import { makeStyles } from '@material-ui/core/styles';
+// import { makeStyles } from '@material-ui/core/styles';
 import ContentEditable from "react-contenteditable";
 import TextField from '@material-ui/core/TextField';
 import Fab from '@material-ui/core/Fab';
 import CheckIcon from '@material-ui/icons/Check';
 import Grid from '@material-ui/core/Grid';
 import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
-
-const useStyles = makeStyles({
-    editable: {
-        fontFamily: "sans-serif",
-        marginLeft: "5%",
-        marginRight: "5%",
-        minHeight: "100px",
-        border: "1px dashed #aaa",
-        padding: "5px",
-        resize: "none",
-        outline: "none"
-    },
-    centered: {
-        marginLeft: "5%",
-        marginRight: "5%",
-    },
-    textField: {
-        width: "100%"
-    }
-});
-function Editor() {
+import useStyles from '../core/CustomCss';
+function Editor(props) {
     const [html, changeHtml] = useState(`<p>Hello <b>World</b> !</p><p>Paragraph 2</p>`);
     // const [editable, changeEditable] = useState(true);
     const [editable] = useState(true);
@@ -68,7 +49,7 @@ function Editor() {
             .then(result => console.log(result));
     }
     return (<>
-        <Grid container spacing={3} className={classes.centered}>
+        <Grid container spacing={3} className={classes.centered+(!props.canEditTitle?"":(" "+classes.displayNone))}>
             <Grid item xs={6}>
                 <TextField className={classes.textField} id="standard-basic" label="Title" onChange={handleTitle} />
             </Grid>

@@ -1,6 +1,7 @@
 import Note from './component/Note';
 import NoteList from './component/NoteList';
-import Test from './component/Test';
+// import Test from './component/Test';
+import Test2 from './component/Test2';
 import PageNotFound from './component/PageNotFound'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import Card from '@material-ui/core/Card';
@@ -16,7 +17,8 @@ function App() {
         <Router>
           <Switch>
             <Route exact path="/" ><NoteList /></Route>
-            <Route exact path="/test/:title" component={Test}></Route>
+            {/* <Route exact path="/test/:title" component={Test}></Route> */}
+            <Route exact path="/test" component={Test2}></Route>
             <Route path="/note/:id" component={Note}></Route>
             <Route component={PageNotFound}></Route>
           </Switch>

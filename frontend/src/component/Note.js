@@ -18,7 +18,22 @@ function Note(props) {
   const [html, changeHtml] = useState(`<p>Hello <b>World</b> !</p><p>Paragraph 2</p>`);
   const [editable] = useState(true);
   const [editableTitle, changeEditableTitle] = useState(false);
-  const handleChange = (evt) => { changeHtml(evt.target.value) };
+  const handleKeyPress = (e) =>{
+    const { selectionStart, selectionEnd } = e.target
+    console.log('selectionStart',window.getSelection().getRangeAt(0).startOffset);
+    // console.log('start',e.target.selectionStart);
+    // if(e.charCode===13 && e.ctrlKey){
+
+    // }
+    console.log('first');
+    console.log(e.charCode);
+    console.log('ctrlKey',e.ctrlKey)
+    console.log('value =>', e.target.value);
+  }
+  const handleChange = (evt) => { 
+    console.log('second');
+    changeHtml(evt.target.value)
+  };
   const handleTitle = (event) => { changeTitle(event.target.value) };
   const handleEditableTitle = () => { changeEditableTitle(true); }
   var [updateNote, { uloading, uerror, status }] = useMutation(UPDATE_NOTE, { client: Client, variables: { _id: id, title: title, content: html } });
@@ -39,8 +54,9 @@ function Note(props) {
       {editableTitle ?
         <Grid container className={classes.centered}>
           <Grid item xs={6}>
-            <TextField className={classes.textField} id="standard-basic" label="Title" value={title} onChange={handleTitle} onBlur={handleUpdateTitle} />
+            <TextField autoFocus className={classes.textField} id="standard-basic" label="Title" value={title} onChange={handleTitle} onBlur={handleUpdateTitle} />
           </Grid>
+          <Grid item xs={6}></Grid>
         </Grid>
         :
         <Grid container className={classes.centered}>
@@ -58,6 +74,8 @@ function Note(props) {
         html={html} // innerHTML of the editable div
         disabled={!editable} // use true to disable edition
         onChange={handleChange} // handle innerHTML change
+        // onKeyPress={handleKeyPress}
+        onKeyDown={handleKeyPress}
         onBlur={updateNote}
       />
     </React.Fragment>

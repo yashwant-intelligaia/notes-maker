@@ -1,11 +1,15 @@
-import { UserController } from './controller/UserController.js';
-import { AuthController } from './controller/AuthController.js';
-import { NotesController } from './controller/NotesController.js';
+// import { UserController } from '../app/controller/UserController.js';
+// import { AuthController } from '../app/controller/AuthController.js';
+// import { NotesController } from '../app/controller/NotesController.js';
+const UserController  = require('../app/controller/UserController');
+const AuthController  = require('../app/controller/AuthController');
+const NotesController  = require('../app/controller/NotesController');
 var userController = new UserController();
 var authController = new AuthController();
 var notesController = new NotesController();
 
-export const resolvers = {
+module.exports = resolver = {
+// export const resolvers = {
     User: {
         username: parent => {
             return parent.username

@@ -1,7 +1,10 @@
-import { Note } from '../model/Note.js';
-import { Content } from '../model/Content.js';
+// import { Note } from '../model/Note.js';
+// import { Content } from '../model/Content.js';
 
-export class NotesController {
+const Note = require('../model/Note');
+const Content = require('../model/Note');
+module.exports = class NotesController{
+// export class NotesController {
     constructor() { }
 
     /**

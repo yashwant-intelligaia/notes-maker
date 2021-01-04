@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Notes Maker",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "dev": "nodemon index.js"
   },
@@ -24,6 +23,10 @@
     "apollo-server-koa": "^2.19.0",
     "dotenv": "^8.2.0",
     "koa": "^2.13.0",
-    "mongoose": "^5.11.5"
+    "koa-router": "^10.0.0",
+    "koa-socket-2": "^2.0.0",
+    "koa-static": "^5.0.0",
+    "mongoose": "^5.11.5",
+    "socket.io": "^3.0.4"
   }
 }

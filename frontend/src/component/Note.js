@@ -10,28 +10,77 @@ import { GetNoteInfo } from '../container/QueryContainer';
 import { UPDATE_NOTE } from '../core/Mutation';
 import { Client } from '../core/Declaration';
 import { useMutation } from '@apollo/client';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+
+const top100Films = [
+  { title: 'The Shawshank Redemption', year: 1994 },
+  { title: 'The Godfather', year: 1972 },
+  { title: 'The Godfather: Part II', year: 1974 },
+  { title: 'The Dark Knight', year: 2008 },
+  { title: '12 Angry Men', year: 1957 },
+  { title: "Schindler's List", year: 1993 },
+  { title: 'Pulp Fiction', year: 1994 },
+  { title: 'The Lord of the Rings: The Return of the King', year: 2003 },
+  { title: 'The Good, the Bad and the Ugly', year: 1966 },
+  { title: 'Fight Club', year: 1999 }
+];
 
 function Note(props) {
   const classes = useStyles();
   const { id } = useParams();
+  const [show, changeAutocomplete] = useState(false);
   const [title, changeTitle] = useState("");
   const [html, changeHtml] = useState(`<p>Hello <b>World</b> !</p><p>Paragraph 2</p>`);
   const [editable] = useState(true);
   const [editableTitle, changeEditableTitle] = useState(false);
   const handleKeyPress = (e) =>{
-    const { selectionStart, selectionEnd } = e.target
-    console.log('selectionStart',window.getSelection().getRangeAt(0).startOffset);
+    var charCode = e.charCode || e.keyCode;
+    console.log('char code',charCode);
+    if(charCode===64){
+      changeAutocomplete(true);
+    }
+
+    const {
+      currentTarget: input,
+      which,
+      type,
+    } = e
+    // grab properties of input that we are interested in
+    const {
+      offsetHeight,
+      offsetLeft,
+      offsetTop,
+      offsetWidth,
+      scrollLeft,
+      scrollTop,
+      selectionStart,
+      value,
+    } = input
+    const {
+      paddingRight,
+      lineHeight,
+    } = getComputedStyle(input)
+    console.log('offsetHeight',offsetHeight, 'offsetTop=>',offsetTop, 'offsetLeft=>',offsetLeft, 'offsetWidth=>', offsetWidth, 'scrollLeft=>',scrollLeft, 'scrollTop=>',scrollTop, 'selectionStart=>',selectionStart)
+
+    // console.log('paddingRight=>',paddingRight, ' lineHeight=>',lineHeight)
+    // const { selectionStart, selectionEnd } = e.target
+    // console.log('selectionStart',window.getSelection().getRangeAt(0).startOffset);
     // console.log('start',e.target.selectionStart);
     // if(e.charCode===13 && e.ctrlKey){
 
     // }
-    console.log('first');
-    console.log(e.charCode);
-    console.log('ctrlKey',e.ctrlKey)
-    console.log('value =>', e.target.value);
+    // console.log('first');
+    // console.log(e.charCode);
+    // console.log('ctrlKey',e.ctrlKey)
+    // console.log('value =>', e.target.value);
+  }
+  const handleKeyDown = (e) =>{
+    // console.log('key down', e.keyCode);
   }
   const handleChange = (evt) => { 
-    console.log('second');
+    // evt = evt || window.event;
+    let event = window.event;
+    // console.log('change',event.charCode);
     changeHtml(evt.target.value)
   };
   const handleTitle = (event) => { changeTitle(event.target.value) };
@@ -74,9 +123,16 @@ function Note(props) {
         html={html} // innerHTML of the editable div
         disabled={!editable} // use true to disable edition
         onChange={handleChange} // handle innerHTML change
-        // onKeyPress={handleKeyPress}
-        onKeyDown={handleKeyPress}
+        onKeyPress={handleKeyPress}
+        onKeyDown={handleKeyDown}
         onBlur={updateNote}
+      />
+      <Autocomplete
+        id="auto-complete"
+        autoComplete
+        includeInputInList
+        className={show?"":classes.displayNone}
+        renderInput={(params) => <TextField {...params} label="autoComplete" margin="normal" />}
       />
     </React.Fragment>
   );

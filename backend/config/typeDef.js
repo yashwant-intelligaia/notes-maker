@@ -1,5 +1,7 @@
-import { gql } from "apollo-server-koa";
-export const typeDefs = gql`
+// import { gql } from "apollo-server-koa";
+const {gql} = require('apollo-server-koa');
+// export const typeDefs = gql`
+module.exports = typeDefs = gql`
   type Error{ field: String, message: String! }
 
   #User section

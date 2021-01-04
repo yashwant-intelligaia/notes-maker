@@ -1,6 +1,8 @@
-import { User } from '../model/User.js';
+// import { User } from '../model/User.js';
+const User = require('../model/User');
 
-export class UserController{
+module.exports = class UserController{
+// export class UserController{
     constructor(){}
 
     /**

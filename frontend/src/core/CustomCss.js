@@ -47,6 +47,11 @@ const useStyles = makeStyles({
     },
     displayNone: {
         display: "none"
+    },
+    userNamedialogBox:{
+        width: "90%",
+        margin: "auto",
+        textAlign: "center"
     }
 });
 
